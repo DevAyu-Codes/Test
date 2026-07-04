@@ -1,0 +1,451 @@
+:root {
+    --bg-color: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary: #38bdf8; /* Your original Liquid Glass blue/cyan */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    cursor: none; /* Hides default cursor for our custom one */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.text-center { text-align: center; }
+.padding-lg { padding: 40px; }
+
+/* --- Custom Cursor --- */
+.cursor-dot {
+    width: 8px; height: 8px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    z-index: 9999; pointer-events: none;
+}
+.cursor-outline {
+    width: 40px; height: 40px;
+    border: 2px solid rgba(56, 189, 248, 0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    z-index: 9998; pointer-events: none;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* --- Ultra-Slow Ambient RGB Background --- */
+/* --- Ultra-Slow Ambient RGB Background --- */
+.rgb-bg-container {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1; 
+    opacity: 0.7;
+    /* REMOVED: filter: blur(). This was killing the GPU for no visual benefit! */
+    transform: translateZ(0);
+}
+
+.rgb-gradient {
+    width: 100%; height: 100%;
+    background: linear-gradient(125deg, #0f172a, #115e59, #312e81, #0f172a);
+    background-size: 400% 400%;
+    animation: rgbShift 45s infinite alternate ease-in-out;
+    /* NEW: Hardware Acceleration */
+    will-change: background-position;
+}
+@keyframes rgbShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* --- Glassmorphism Base --- */
+.glass-card, .glass-nav, .glass-footer, .contact-section {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transform: translateZ(0);
+}
+
+/* --- Navigation --- */
+.glass-nav {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 30px; z-index: 1000; border-radius: 50px;
+}
+.logo { font-size: 1.5rem; font-weight: bold; }
+.logo span { color: var(--primary); }
+.nav-links { list-style: none; display: flex; gap: 20px; }
+.nav-links a { color: var(--text-main); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+.nav-links a:hover { color: var(--primary); }
+
+/* --- Layout & Typography --- */
+.section-container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+.section-title { text-align: center; font-size: 2.8rem; margin-bottom: 50px; color: var(--text-main); }
+.section-title span { color: var(--primary); }
+
+/* --- Hero Section & Photo --- */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.hero-card { 
+    padding: 50px; max-width: 900px; 
+    display: flex; align-items: center; gap: 40px; 
+}
+.profile-photo-container {
+    flex-shrink: 0; width: 220px; height: 220px;
+    border-radius: 20px; overflow: hidden;
+    border: 2px solid var(--glass-border);
+    background: rgba(255,255,255,0.02); /* dark placeholder color */
+}
+.profile-photo { width: 120%; height: 120%; object-fit: cover; margin-left: -25px;}
+.hero-text { text-align: left; }
+.hero h1 { font-size: 3rem; margin-bottom: 10px; }
+.hero h1 span { color: var(--primary); }
+.hero p { color: var(--text-muted); margin-bottom: 20px; font-size: 1.1rem; }
+
+.social-links-hero a {
+    color: var(--text-main); font-size: 1.5rem; margin-right: 20px; transition: color 0.3s;
+}
+.social-links-hero a:hover { color: var(--primary); }
+
+/* --- Personal Info Grid --- */
+.personal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.info-item {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+}
+
+.info-item i {
+    color: var(--primary);
+    width: 25px; /* Ensures all icons take up the same space for alignment */
+    font-size: 1.1rem;
+    margin-right: 8px;
+}
+
+.info-item span {
+    color: var(--text-main);
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(54, 195, 255, 0.5);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+    border: none;
+}
+
+.resume-btn:hover {
+    background: rgba(56, 189, 248, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 144, 206, 0.5);
+}
+
+/* Ensure the grid collapses to one column on smaller phone screens */
+@media (max-width: 600px) {
+    .personal-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        text-align: left; /* Keeps it readable when stacked */
+    }
+}
+
+/* --- Typewriter --- */
+.typewriter-container { 
+    margin-bottom: 20px; 
+    min-height: 70px; /* Reserves space so content doesn't jump */
+    display: flex;
+    align-items: center;
+}
+.typewriter-container h2 { 
+    font-size: 1.8rem; 
+    color: var(--text-muted); 
+    font-weight: 400; 
+    margin: 0; /* Prevents margin from messing with the fixed height */
+}
+#typewriter-text { color: var(--primary); font-weight: 600; }
+.type-cursor { animation: blink 0.8s infinite; color: var(--text-main); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* --- Skills Section --- */
+.skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 30px; justify-items: center;
+}
+.skill-item {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--text-muted); transition: 0.3s;
+}
+.skill-item i { color: rgba(255,255,255,0.8); transition: 0.3s; }
+.skill-item:hover { color: var(--primary); transform: translateY(-5px); }
+.skill-item:hover i { color: var(--primary); }
+
+/* --- Resume Section --- */
+.resume-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+.resume-card { padding: 40px 30px; transition: transform 0.3s; }
+.resume-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.2); }
+.resume-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: var(--primary); }
+.resume-date, .resume-location { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 8px; }
+.resume-date i, .resume-location i { width: 20px; color: var(--text-main); }
+
+/* --- Services Grid --- */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.service-card { padding: 40px 30px; text-align: center; transition: transform 0.3s; }
+.service-card:hover { transform: translateY(-10px); }
+.service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+.service-card h3 { margin-bottom: 15px; font-size: 1.5rem; }
+.service-card p { color: var(--text-muted); }
+
+/* --- Projects Grid --- */
+.project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.project-card { padding: 0; overflow: hidden; transition: transform 0.3s; }
+.project-card:hover { transform: translateY(-10px); }
+.project-image-header { width: 100%; height: 180px; overflow: hidden; background: rgba(0,0,0,0.2); }
+.project-image-header img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; opacity: 0.8; }
+.project-card:hover .project-image-header img { transform: scale(1.05); opacity: 1; }
+.project-info { padding: 25px; }
+.project-info h3 { margin-bottom: 10px; font-size: 1.3rem; }
+.project-info p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* --- Footer --- */
+.glass-footer { padding: 50px 20px; margin-top: 50px; border-radius: 20px 20px 0 0; }
+.glass-footer h2 { margin-bottom: 10px; font-size: 1.5rem; }
+.copyright { color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; }
+
+/* --- Contact & Footer Section --- */
+.contact-section {
+    position: relative;
+    padding: 100px 20px 40px;
+    margin-top: 50px;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.2); /* Slight darkening for the footer area */
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Left Side */
+.contact-left {
+    flex: 1;
+}
+
+.contact-heading {
+    font-size: 5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    letter-spacing: -2px;
+}
+
+.email-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff2a5f; /* Pinkish-red from screenshot */
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+    border: none;
+}
+
+.email-btn:hover {
+    background: #ff2a5f;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 42, 95, 0.3);
+}
+
+.contact-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Specific brand colors for the bottom text icons like in SS */
+.whatsapp-color { color: #25D366; font-size: 1.2rem; }
+.email-color { color: #ff2a5f; font-size: 1.2rem; }
+.github-color { color: #ffffff; font-size: 1.2rem; }
+.linkedin-color { color: #0077b5; font-size: 1.2rem; }
+
+/* Right Side (Social Card) */
+.contact-right {
+    flex: 0 0 400px;
+    display: flex;
+    justify-content: center;
+}
+
+.follow-card {
+    position: relative;
+    padding: 50px 40px 40px;
+    text-align: center;
+    width: 100%;
+    margin-top: 30px; 
+    overflow: visible !important;
+    contain: none !important; /* <--- AND THIS ONE */
+}
+
+.share-icon-wrapper {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: #1a1a24;
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #ff2a5f;
+}
+
+.follow-card h3 {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.social-icon-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Brand Hover Colors for Social Card */
+.social-icon.instagram:hover { background: #E1306C; transform: translateY(-5px); }
+.social-icon.whatsapp:hover { background: #e91e1e; transform: translateY(-5px); }
+.social-icon.linkedin:hover { background: #0077b5; transform: translateY(-5px); }
+.social-icon.github:hover { background: #333; transform: translateY(-5px); }
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 20px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+
+/* Responsive adjustments for the new footer */
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .contact-heading {
+        font-size: 3.5rem;
+    }
+    .contact-details {
+        justify-content: center;
+    }
+    .contact-right {
+        flex: auto;
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+    }
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+    .hero-card { 
+        flex-direction: column; text-align: center; padding: 40px 20px; align-items: center; margin-top: 90px;
+    }
+    .profile-photo-container {
+        width: 180px; height: 180px; margin-bottom: 20px; border-radius: 50%;
+    }
+    .hero-text { text-align: center; }
+    .social-links-hero { display: flex; justify-content: center; }
+    .personal-info-grid { grid-template-columns: 1fr; gap: 12px; text-align: left; }
+}
+
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-outline { display: none; } 
+    * { cursor: auto; }
+    
+    .hero h1 { font-size: 2.5rem; }
+    .nav-links { display: none; }
+    .glass-nav { justify-content: center; }
+
+    /* RESTORED: Lightweight Glass Effect for Mobile */
+    .glass-card, .glass-nav, .glass-footer, .contact-section {
+        /* A smaller 8px blur looks great but requires 50% less GPU power than desktop */
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        
+        /* Restoring your original semi-transparent glass background */
+        background: var(--glass-bg); 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+@media (max-width: 600px) {
+    .typewriter-container {
+        min-height: 90px; /* Reserves enough space for 2 lines on phones */
+        justify-content: center; /* Keeps it centered */
+    }
+    .typewriter-container h2 {
+        font-size: 1.5rem; /* Shrinks the text just a tiny bit so it fits better */
+    }
+}
